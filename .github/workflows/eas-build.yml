@@ -1,0 +1,44 @@
+name: EAS Build (Android)
+
+# Manual, on-demand cloud build via EAS. Requires the EXPO_TOKEN repository secret
+# (Settings -> Secrets and variables -> Actions -> New repository secret).
+# Never hard-code the token; this workflow reads it from secrets only.
+
+on:
+  workflow_dispatch:
+    inputs:
+      profile:
+        description: 'EAS build profile (see eas.json)'
+        required: true
+        default: 'preview'
+        type: choice
+        options:
+          - preview
+          - production
+
+jobs:
+  build:
+    name: Android build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Set up EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build app.html
+        run: npm run build:html
+
+      - name: EAS build
+        run: eas build --platform android --profile ${{ inputs.profile }} --non-interactive --no-wait

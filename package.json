@@ -1,0 +1,40 @@
+{
+  "name": "scape-goat",
+  "version": "1.0.0",
+  "description": "Unofficial, non-commercial pass-and-play adaptation of the hidden-role heist game Scape Goat (Expo + WebView). Configurable, with honest computer players.",
+  "keywords": [
+    "expo",
+    "react-native",
+    "board-game",
+    "party-game",
+    "social-deduction",
+    "hidden-role",
+    "pass-and-play"
+  ],
+  "author": "Anuj Pratap Singh",
+  "license": "MIT",
+  "private": true,
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "build:html": "node build.js",
+    "icon": "node make-icon.js",
+    "test": "node tests/engine.test.js && node tests/ui.smoke.test.js",
+    "start": "npm run build:html && expo start",
+    "android": "npm run build:html && expo run:android",
+    "ios": "npm run build:html && expo run:ios",
+    "build:android": "npm run build:html && eas build -p android --profile preview"
+  },
+  "dependencies": {
+    "expo": "~51.0.28",
+    "expo-asset": "~10.0.10",
+    "expo-file-system": "~17.0.1",
+    "expo-status-bar": "~1.12.1",
+    "react": "18.2.0",
+    "react-native": "0.74.5",
+    "react-native-webview": "13.8.6"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.24.0",
+    "eas-cli": "^13.0.0"
+  }
+}

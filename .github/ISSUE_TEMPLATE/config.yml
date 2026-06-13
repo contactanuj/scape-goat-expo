@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Intellectual-property concern (rights holders)
+    url: https://github.com/
+    about: If you are a rights holder of the original game, please see DISCLAIMER.md and open an issue or contact the maintainer; we respond promptly.

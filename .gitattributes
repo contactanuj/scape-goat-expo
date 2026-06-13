@@ -1,0 +1,14 @@
+# Normalize line endings to LF in the repo
+* text=auto eol=lf
+
+# Binary assets — never normalize
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.keystore binary
+*.jks binary
+
+# Generated, but committed (Expo bundler loads it). Collapse in diffs/reviews.
+assets/app.html linguist-generated=true

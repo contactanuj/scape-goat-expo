@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Test & verify build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # The engine + UI smoke tests are plain Node scripts with no dependencies,
+      # so no `npm install` is required to run them.
+      - name: Run tests
+        run: npm test
+
+      - name: Rebuild app.html
+        run: npm run build:html
+
+      - name: Verify committed assets/app.html is in sync
+        run: |
+          if ! git diff --quiet -- assets/app.html; then
+            echo "::error::assets/app.html is out of date. Run 'npm run build:html' and commit the result."
+            git --no-pager diff -- assets/app.html
+            exit 1
+          fi
