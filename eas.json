@@ -4,6 +4,7 @@
   },
   "build": {
     "preview": {
+      "credentialsSource": "local",
       "android": {
         "buildType": "apk"
       }
