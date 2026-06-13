@@ -2,6 +2,7 @@
   "expo": {
     "name": "Scape Goat",
     "slug": "scape-goat",
+    "owner": "snyperdrydan",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -22,14 +23,10 @@
       "bundleIdentifier": "com.scapegoat.passandplay",
       "supportsTablet": false
     },
-    "plugins": [
-      [
-        "react-native-webview",
-        {
-          "allowFileAccessFromFileURLs": true,
-          "allowUniversalAccessFromFileURLs": true
-        }
-      ]
-    ]
+    "extra": {
+      "eas": {
+        "projectId": "71cf44d7-9028-47e9-828a-1b482c242f42"
+      }
+    }
   }
 }
