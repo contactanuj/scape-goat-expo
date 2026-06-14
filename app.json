@@ -27,7 +27,6 @@
     },
     "plugins": [
       "expo-asset",
-      "expo-status-bar",
       ["expo-splash-screen", { "backgroundColor": "#0c0f14" }]
     ]
   }
