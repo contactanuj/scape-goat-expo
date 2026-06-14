@@ -70,6 +70,16 @@ UI.setView('home'); UI.render();
   ok(/data-action="startGame" disabled/.test(html()) && /Fix the issue/.test(html()), 'invalid config disables & relabels the start button');
   UI.setView('setup'); UI.setDraft(SG.defaultConfig(5)); UI.render();
   ok(/Deal the evidence/.test(html()) && !/Fix the issue/.test(html()), 'valid config shows the start button');
+  // The 6-player cops-interrupt toggle is offered ONLY at 6 players; elsewhere it's hidden
+  // AND forced off so an against-the-count config can never be created or get stuck.
+  UI.setView('setup'); UI.setDraft(SG.defaultConfig(6)); UI.state().ui.advanced = true; UI.render();
+  ok(/Out-of-turn/i.test(html()), '6p: the interrupt toggle is offered');
+  [3, 4, 5, 7, 8].forEach(function (pc) {
+    UI.setView('setup'); var d = SG.defaultConfig(pc); d.cops.sixPlayerInterrupt = true; UI.setDraft(d); UI.state().ui.advanced = true; UI.render();
+    ok(!/Out-of-turn/i.test(html()), pc + 'p: interrupt toggle NOT offered');
+    ok(UI.state().draft.cops.sixPlayerInterrupt === false, pc + 'p: interrupt is forced off');
+    ok(SG.validateConfig(UI.state().draft).ok, pc + 'p: config valid (no stuck against-count state)');
+  });
   UI.setView('home'); UI.render();
 })();
 

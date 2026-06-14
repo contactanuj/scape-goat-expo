@@ -84,11 +84,14 @@
   }
 
   // Effective per-card colour cap: never enough colours to implicate >= N-1 players
-  // on a single card (that would auto-frame someone every reveal).
+  // on a single card (that would auto-frame someone every reveal). Three-colour cards
+  // are allowed by the "chaos" preset, or by a custom deck with allowThreeColor on.
   function effectiveMaxColors(config, knobs) {
     var N = config.playerCount;
+    var d = config.deck || {};
+    var allowThree = (d.preset === 'chaos') || (d.preset === 'custom' && d.allowThreeColor);
     var cap = knobs.maxColors;
-    if (!(config.deck && config.deck.allowThreeColor)) cap = Math.min(cap, 2);
+    if (!allowThree) cap = Math.min(cap, 2);
     return Math.max(1, Math.min(cap, N - 1));
   }
 
@@ -138,10 +141,13 @@
     var colorCount = [];                         // colours on each coloured card (1..maxColors)
     var i;
     for (i = 0; i < R; i++) colorCount.push(1);
+    // Greedily fill each card up to its cap before moving on. Total incidence is unchanged
+    // (so the per-colour floor is preserved — colours are assigned by demand below), but
+    // when 3-colour is allowed this actually yields 3-colour cards instead of only pairs.
     var idx = 0, guard = 0;
-    while (extra > 0 && guard++ < R * maxColors + 5) {
-      if (colorCount[idx] - 1 < perCardCap) { colorCount[idx]++; extra--; }
-      idx = (idx + 1) % R;
+    while (extra > 0 && idx < R && guard++ < R * maxColors + 5) {
+      while (extra > 0 && colorCount[idx] - 1 < perCardCap) { colorCount[idx]++; extra--; }
+      idx++;
     }
 
     // Even per-colour demand whose sum == actual incidence (>= floor for every colour).

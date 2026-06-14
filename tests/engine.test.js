@@ -50,6 +50,10 @@ for (var pc = 3; pc <= 8; pc++) {
 (function () { var c = SG.defaultConfig(4); c.enforceDumpOwnColor = false; var r = SG.validateConfig(c); ok(r.ok && r.warnings.length > 0, 'relaxing shed-own-colour is a warning, still playable'); })();
 (function () { var c = SG.defaultConfig(5); c.scoring.enabled = true; ok(SG.validateConfig(c).ok, 'series scoring config validates'); })();
 (function () { var c = SG.defaultConfig(5); c.scoring.enabled = true; c.scoring.scoreEscape = -1; ok(!SG.validateConfig(c).ok, 'negative points is an error'); })();
+// Player-count vs config: the out-of-turn cops interrupt is a 6-player rule.
+(function () { var c = SG.defaultConfig(3); c.cops.sixPlayerInterrupt = true; ok(!SG.validateConfig(c).ok, '6p interrupt at 3 players is an error (offset out of range)'); })();
+(function () { var c = SG.defaultConfig(6); c.cops.sixPlayerInterrupt = true; ok(SG.validateConfig(c).ok, '6p interrupt is valid at 6 players'); })();
+(function () { for (var n = 3; n <= 8; n++) ok(SG.defaultConfig(n).cops.sixPlayerInterrupt === (n === 6), n + 'p default enables the interrupt only at 6'); })();
 
 // ---------------------------------------------------------------------------
 section('deck synthesis invariants');
@@ -64,8 +68,19 @@ section('deck synthesis invariants');
     // no card shows a colour twice
     var dup = composed.cards.some(function (cd) { var s = {}; for (var i = 0; i < cd.colors.length; i++) { if (s[cd.colors[i]]) return true; s[cd.colors[i]] = 1; } return false; });
     ok(!dup, preset + '/' + n + 'p no card repeats a colour');
+    // No card may carry >= N colours (would auto-frame); cap is min(3, N-1) for chaos else 2.
+    var cap = SGDeck.effectiveMaxColors(c, SGDeck.presetKnobs(c));
+    ok(composed.cards.every(function (cd) { return cd.colors.length <= cap; }), preset + '/' + n + 'p respects the colour cap (' + cap + ')');
   }
 });
+// The "chaos" preset actually produces 3-colour cards once there are enough colours.
+[4, 5, 6, 7, 8].forEach(function (n) {
+  var c = SG.defaultConfig(n); c.deck.preset = 'chaos';
+  var st = SGDeck.composeDeck(c).stats;
+  ok(st.triples > 0, 'chaos/' + n + 'p produces 3-colour cards (matches its label)');
+  ok(st.minIncidence >= n - 1, 'chaos/' + n + 'p still meets the frame floor');
+});
+(function () { var c = SG.defaultConfig(3); c.deck.preset = 'chaos'; ok(SGDeck.composeDeck(c).stats.triples === 0, 'chaos/3p has no 3-colour cards (only 2 other colours exist)'); })();
 
 // ---------------------------------------------------------------------------
 section('hidden-information contract (anti-leak)');

@@ -170,6 +170,8 @@
     if (!d.playerKinds) d.playerKinds = SG.defaultKinds(d.playerCount);
     while (d.playerKinds.length < d.playerCount) d.playerKinds.push('human');
     d.playerKinds.length = d.playerCount;
+    // The out-of-turn cops interrupt is a 6-player-only rule — never leave it set otherwise.
+    if (d.cops && d.playerCount !== 6) d.cops.sixPlayerInterrupt = false;
   }
 
   function renderSetup() {
@@ -257,7 +259,8 @@
         ['adjacent', 'The player to their left']
       ]),
       stepperRow('Auto-hide the secret after (seconds)', 'autoHideSeconds', d.autoHideSeconds, 3, 30),
-      checkboxRow('6-player out-of-turn “run to the cops” rule', 'cops.sixPlayerInterrupt', d.cops.sixPlayerInterrupt),
+      // The out-of-turn "run to the cops" rule is a 6-player-only rule — only offered at 6.
+      d.playerCount === 6 ? checkboxRow('Out-of-turn “run to the cops” rule (6-player)', 'cops.sixPlayerInterrupt', d.cops.sixPlayerInterrupt) : '',
 
       '<div class="spacer"></div>',
       '<h3>Series scoring</h3>',
