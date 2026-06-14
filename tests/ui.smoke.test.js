@@ -84,6 +84,32 @@ UI.setView('home'); UI.render();
 })();
 
 // ---------------------------------------------------------------------------
+// PLAYER-COUNT CHANGES: the setup must always track the player count - per-seat arrays
+// resize, count-dependent values stay valid, and the config never gets stuck - while
+// PRESERVING the player's other choices (deck/scoring/frame/stash/names/bots).
+(function countChange() {
+  var d = SG.defaultConfig(5);
+  d.deck.preset = 'chaos'; d.scoring.enabled = true; d.scoring.winTarget = 4;
+  d.frameMode = 'auto_detect'; d.stashSize = 5; d.handSize = 4;
+  d.playerKinds = ['human', 'bot', 'human', 'bot', 'human'];
+  d.playerNames = ['Amy', 'Bo', 'Cy', 'Dee', 'Ev'];
+  UI.setView('setup'); UI.setDraft(d); UI.render();
+  [8, 3, 6, 4, 7, 5].forEach(function (pc) {
+    UI.setPlayerCount(pc);
+    var x = UI.state().draft;
+    ok(x.playerCount === pc, pc + ': count applied');
+    ok(x.playerNames.length === pc && x.playerColors.length === pc && x.playerKinds.length === pc, pc + ': per-seat arrays track the count');
+    ok(x.deck.preset === 'chaos' && x.frameMode === 'auto_detect' && x.stashSize === 5, pc + ': advanced choices preserved');
+    ok(x.scoring.enabled === true && x.scoring.winTarget === 4, pc + ': scoring preserved');
+    ok(pc === 6 || x.cops.sixPlayerInterrupt === false, pc + ': 6p-only interrupt cleared off 6');
+    var v = SG.validateConfig(x);
+    ok(v.ok, pc + ': config valid after count change (' + JSON.stringify(v.errors) + ')');
+  });
+  ok(UI.state().draft.playerNames[0] === 'Amy' && UI.state().draft.playerKinds[1] === 'bot', 'entered name + bot choice preserved across count changes');
+  UI.setView('home'); UI.render();
+})();
+
+// ---------------------------------------------------------------------------
 // ANTI-LEAK: the scapegoat's reveal must be indistinguishable from a conspirator's,
 // and the shared board must never show anyone's secret intel.
 (function antiLeak() {

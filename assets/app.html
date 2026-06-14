@@ -2662,17 +2662,23 @@ select {
     var min = parseInt(wrap.getAttribute('data-min'), 10), max = parseInt(wrap.getAttribute('data-max'), 10);
     var delta = parseInt(btn.getAttribute('data-step'), 10);
     var next = Math.max(min, Math.min(max, getPath(draft, path) + delta));
+    if (path === 'playerCount') { setPlayerCount(next); render(); return; }
     setPath(draft, path, next);
-    if (path === 'playerCount') {
-      // Re-derive count-appropriate defaults, but KEEP the entered names and bot/human choices.
-      var names = draft.playerNames.slice();
-      var kinds = (draft.playerKinds || []).slice();
-      draft = SG.defaultConfig(next, names);
-      for (var i = 0; i < next; i++) if (kinds[i]) draft.playerKinds[i] = kinds[i];
-    }
     // Keep the flip threshold reachable when prep tokens drop.
     if (path === 'prepTokens' && draft.flipThreshold > draft.prepTokens) draft.flipThreshold = draft.prepTokens;
     render();
+  }
+  // Change the player count while PRESERVING every other setting (names, bot/human choices,
+  // deck, scoring, frame mode, etc.). Only the count-dependent values are re-derived so the
+  // setup always respects the player count: per-seat arrays are resized, the 6-player-only
+  // interrupt is cleared off 6, hand size is kept >= the feasible minimum, and the flip
+  // threshold stays <= prep tokens. Nothing gets stuck or silently wiped.
+  function setPlayerCount(n) {
+    draft.playerCount = Math.max(3, Math.min(8, n));
+    resizeNames(draft);
+    var fmin = feasibleMinHand(draft);
+    if (draft.handSize < fmin) draft.handSize = fmin;
+    if (draft.flipThreshold > draft.prepTokens) draft.flipThreshold = draft.prepTokens;
   }
   function onToggle(path) { setPath(draft, path, !getPath(draft, path)); render(); }
 
@@ -2685,6 +2691,7 @@ select {
     state: function () { return { view: view, G: G, draft: draft, ui: ui }; },
     setView: function (v) { view = v; },
     setDraft: function (d) { draft = d; },
+    setPlayerCount: setPlayerCount,
     setAuto: function (on) { autoEnabled = on; clearBotTimer(); },
     botActOnce: botActOnce,
     pendingActorIsBot: pendingActorIsBot,
