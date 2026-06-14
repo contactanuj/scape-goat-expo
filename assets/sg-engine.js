@@ -54,6 +54,17 @@
   // Up to 8 distinct player identities (colour ids; the UI maps them to swatches).
   var COLORS = ['red', 'blue', 'green', 'yellow', 'purple', 'orange', 'pink', 'teal'];
 
+  // Flavour name pool for the "Gruff Gang" of billy-goat crooks. Used only to seed a
+  // fresh setup with fun, varied names (the UI shuffles + picks); fully editable. Engine
+  // defaults stay "Player N" so programmatic/test behaviour is deterministic.
+  var THEME_NAMES = [
+    'Billy the Kid', 'Nanny McPhee', 'Vincent van Goat', 'Capricorn Capone',
+    'Bill Goatstein', 'Heidi Hooves', 'Sir Bleats-a-Lot', 'Gruff McTavish',
+    'The Goatfather', 'Ram Bo', 'Cashmere', 'Kid Vicious',
+    'Goldie Hooves', 'Curly Horns', 'Nanny Oakley', 'Mutton Chops',
+    'Billy Bonkers', 'Hoof Hearted', 'Shear Khan', 'Baa-bra Streisand'
+  ];
+
   var DECOY_MODES = ['random_other', 'adjacent'];
   var FRAME_MODES = ['declared_target', 'auto_detect'];
   var ROTATIONS = ['random', 'clockwise', 'loser_first'];
@@ -918,6 +929,7 @@
     LOCATIONS: LOCATIONS,
     FACEUP_LOCATIONS: FACEUP_LOCATIONS,
     COLORS: COLORS,
+    THEME_NAMES: THEME_NAMES,
     DECOY_MODES: DECOY_MODES,
     FRAME_MODES: FRAME_MODES,
     ROTATIONS: ROTATIONS,

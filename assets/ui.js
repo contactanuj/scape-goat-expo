@@ -143,12 +143,28 @@
   // ===========================================================================
   // SETUP + CONFIG (live validation)
   // ===========================================================================
+  // Seed `pc` flavourful, distinct names — keeping any already entered, padding the rest
+  // from a shuffled "Gruff Gang" pool (falls back to "Player N" if the pool runs out).
+  function themedNames(pc, existing) {
+    existing = (existing || []).slice(0, pc);
+    var used = {}; existing.forEach(function (n) { used[('' + n).trim().toLowerCase()] = true; });
+    var pool = SG.THEME_NAMES.slice();
+    for (var i = pool.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = pool[i]; pool[i] = pool[j]; pool[j] = t; }
+    var out = existing.slice(), p = 0;
+    while (out.length < pc) {
+      if (p < pool.length) { var nm = pool[p++]; if (!used[nm.toLowerCase()]) { out.push(nm); used[nm.toLowerCase()] = true; } }
+      else out.push('Player ' + (out.length + 1));
+    }
+    return out;
+  }
   function newDraft(pc) {
     var names = (draft && draft.playerNames) ? draft.playerNames.slice() : null;
-    return SG.defaultConfig(pc, names);
+    var d = SG.defaultConfig(pc, names);
+    if (!names) d.playerNames = themedNames(pc, []); // fresh New-game setup gets fun, varied names
+    return d;
   }
   function resizeNames(d) {
-    while (d.playerNames.length < d.playerCount) d.playerNames.push('Player ' + (d.playerNames.length + 1));
+    if (d.playerNames.length < d.playerCount) d.playerNames = themedNames(d.playerCount, d.playerNames);
     d.playerNames.length = d.playerCount;
     d.playerColors = SG.defaultColors(d.playerCount);
     if (!d.playerKinds) d.playerKinds = SG.defaultKinds(d.playerCount);
