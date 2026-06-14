@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "expo": "~51.0.28",
-    "expo-asset": "~10.0.10",
+    "expo-asset": "~56.0.17",
     "expo-file-system": "~17.0.1",
     "expo-status-bar": "~1.12.1",
     "react": "18.2.0",
