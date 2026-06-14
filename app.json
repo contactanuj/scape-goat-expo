@@ -2,7 +2,7 @@
   "expo": {
     "name": "Scape Goat",
     "slug": "scape-goat",
-    "owner": "snyper-drydan",
+    "owner": "snypers-team",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -20,11 +20,6 @@
       "bundleIdentifier": "com.scapegoat.passandplay",
       "supportsTablet": false
     },
-    "extra": {
-      "eas": {
-        "projectId": "981e2c7e-113f-4704-9704-087126153eab"
-      }
-    },
     "plugins": [
       "expo-asset",
       [
@@ -36,6 +31,11 @@
         }
       ],
       "expo-status-bar"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "9896e27a-9058-4222-8a8c-52b87f43958f"
+      }
+    }
   }
 }
