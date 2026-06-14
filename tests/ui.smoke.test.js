@@ -1,5 +1,5 @@
 /*
- * ui.smoke.test.js — headless smoke + anti-leak test for ui.js.
+ * ui.smoke.test.js - headless smoke + anti-leak test for ui.js.
  *
  * Stubs a minimal DOM, loads the real deck + engine + UI, and drives complete
  * games through the actual UI action handlers (not the engine directly). This
@@ -107,7 +107,7 @@ UI.setView('home'); UI.render();
   ok(/believe the scapegoat is/i.test(scapeHtml) && /believe the scapegoat is/i.test(conspHtml), 'both intel screens are phrased identically');
   ok(!/you are the scapegoat/i.test(scapeHtml) && !/you are the patsy/i.test(scapeHtml), 'the scapegoat screen never announces the role');
   // Structural parity: the intel-card block (the role-reveal part) matches ONE identical
-  // pattern for both — only the name/colour data differs. A role tell would break the match.
+  // pattern for both - only the name/colour data differs. A role tell would break the match.
   var INTEL_BLOCK = /<div class="intelcard"><div class="muted">[^<]*<span class="swatch sw-\w+"><\/span><\/div><div class="small muted"[^>]*>You believe the scapegoat is<\/div><div class="big">[^<]*<span class="swatch sw-\w+"><\/span><\/div><\/div>/;
   ok(INTEL_BLOCK.test(scapeHtml), 'scapegoat intel card matches the common template');
   ok(INTEL_BLOCK.test(conspHtml), 'conspirator intel card matches the SAME common template (no role tell)');

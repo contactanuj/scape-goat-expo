@@ -3,7 +3,7 @@
 This project is an **unofficial, non-commercial, fan-made** digital adaptation of the
 tabletop game **Scape Goat**.
 
-- **Scape Goat** — its name, rules text, characters, artwork, and overall design — is
+- **Scape Goat** - its name, rules text, characters, artwork, and overall design - is
   © 2020 **Lone Oak Games** (designer **Jon Perry**). All rights to the game belong to
   its respective owners.
 - This repository is **not affiliated with, authorized, endorsed, or sponsored by**

@@ -1,5 +1,5 @@
 /*
- * sg-engine.js — Scape Goat rules engine (pure, transport-agnostic).
+ * sg-engine.js - Scape Goat rules engine (pure, transport-agnostic).
  *
  * No DOM, no network. Deterministic given (config, seed), so it can be:
  *   - unit-tested in Node by simulating full games (tests/engine.test.js),
@@ -10,7 +10,7 @@
  * Randomness uses a seeded PRNG stored on state.rngState so the deal + scapegoat
  * assignment are reproducible: a whole match replays from (config, seed).
  *
- * HIDDEN-INFORMATION CONTRACT (the heart of the game — read before touching the UI):
+ * HIDDEN-INFORMATION CONTRACT (the heart of the game - read before touching the UI):
  *   - Player COLOURS are PUBLIC (every token sits on the shared board).
  *   - SECRET, and never rendered on a shared screen: who the real scapegoat is
  *     (state.scapegoatId), each player's "intel"/suspect (state.intel), and every
@@ -72,9 +72,9 @@
 
   var OUTCOMES = {
     scapegoat_escaped: 'The scapegoat noticed the trap and ran to the cops',
-    cops_called_wrong: 'An innocent panicked and ran to the cops — the scapegoat walks free',
+    cops_called_wrong: 'An innocent panicked and ran to the cops - the scapegoat walks free',
     framed_correct: 'The conspirators framed the real scapegoat',
-    framed_wrong: 'An innocent was framed — the real scapegoat walks free'
+    framed_wrong: 'An innocent was framed - the real scapegoat walks free'
   };
 
   var PHASES = [
@@ -88,7 +88,7 @@
   ];
 
   // ---------------------------------------------------------------------------
-  // Seeded PRNG (mulberry32) — deterministic + JSON-serializable via state.rngState.
+  // Seeded PRNG (mulberry32) - deterministic + JSON-serializable via state.rngState.
   // ---------------------------------------------------------------------------
   function nextRand(state) {
     var t = (state.rngState = (state.rngState + 0x6D2B79F5) >>> 0);
@@ -172,14 +172,14 @@
 
     var pc = c.playerCount;
     if (!(pc >= 3)) errors.push('Scape Goat needs at least 3 players.');
-    else if (pc < 4 || pc > 6) warnings.push('Player count ' + pc + ' is outside the official 4-6 range — playable, but balance is untested.');
+    else if (pc < 4 || pc > 6) warnings.push('Player count ' + pc + ' is outside the official 4-6 range - playable, but balance is untested.');
 
     // Colours: one distinct colour per player.
     var cols = c.playerColors || [];
     if (cols.length !== pc) errors.push('You have ' + cols.length + ' colour(s) but ' + pc + ' player(s).');
     var seenCol = {};
     for (var ci = 0; ci < cols.length; ci++) {
-      if (seenCol[cols[ci]]) errors.push('Two players share the colour "' + cols[ci] + '" — frames would be ambiguous.');
+      if (seenCol[cols[ci]]) errors.push('Two players share the colour "' + cols[ci] + '" - frames would be ambiguous.');
       seenCol[cols[ci]] = true;
     }
 
@@ -191,7 +191,7 @@
       var nm = (names[i] || '').trim();
       if (!nm) { errors.push('Every player needs a name (player ' + (i + 1) + ' is blank).'); continue; }
       var key = nm.toLowerCase();
-      if (seen[key]) warnings.push('Duplicate name "' + nm + '" — players may be hard to tell apart.');
+      if (seen[key]) warnings.push('Duplicate name "' + nm + '" - players may be hard to tell apart.');
       seen[key] = true;
     }
 
@@ -203,16 +203,16 @@
       if (PLAYER_KINDS.indexOf(kinds[ki]) === -1) errors.push('Player kind must be "human" or "bot".');
       if (kinds[ki] === 'human') humans++;
     }
-    if (kinds.length === pc && humans === 0) warnings.push('Every seat is a bot — the game will play itself as a demo.');
-    if (kinds.length === pc && humans === 1) warnings.push('Only one human — fun for practice against bots, but social deduction shines with more people.');
+    if (kinds.length === pc && humans === 0) warnings.push('Every seat is a bot - the game will play itself as a demo.');
+    if (kinds.length === pc && humans === 1) warnings.push('Only one human - fun for practice against bots, but social deduction shines with more people.');
 
     if (!(c.handSize >= 1)) errors.push('Each player needs at least 1 card in hand.');
-    else if (c.handSize !== handSizeFor(pc)) warnings.push('Hand size ' + c.handSize + ' differs from the suggested ' + handSizeFor(pc) + ' for ' + pc + ' players — balance untested.');
+    else if (c.handSize !== handSizeFor(pc)) warnings.push('Hand size ' + c.handSize + ' differs from the suggested ' + handSizeFor(pc) + ' for ' + pc + ' players - balance untested.');
     if (!(c.stashSize >= 1)) errors.push('The stash needs at least 1 card (the Stash action draws from it).');
 
     if (!(c.prepTokens >= 1)) errors.push('There must be at least 1 preparation token, or the board never flips to Frame/Steal.');
     if (!(c.flipThreshold >= 1)) errors.push('The flip threshold must be at least 1.');
-    else if (c.flipThreshold > c.prepTokens) errors.push('The board flips after ' + c.flipThreshold + ' tokens are taken, but there are only ' + c.prepTokens + ' — it could never flip, so no frame could ever happen.');
+    else if (c.flipThreshold > c.prepTokens) errors.push('The board flips after ' + c.flipThreshold + ' tokens are taken, but there are only ' + c.prepTokens + ' - it could never flip, so no frame could ever happen.');
     else if (c.prepTokens > c.flipThreshold) warnings.push('There are more preparation tokens (' + c.prepTokens + ') than needed to flip (' + c.flipThreshold + '); the extras become unreachable once the board flips.');
     if (c.prepTokens > pc) warnings.push('More preparation tokens than players is unusual.');
 
@@ -229,7 +229,7 @@
       if (pc !== 6) warnings.push('The out-of-turn cops interrupt is officially a 6-player rule.');
     }
 
-    // Deck feasibility — the load-bearing check: every colour must appear on >= N-1
+    // Deck feasibility - the load-bearing check: every colour must appear on >= N-1
     // cards or that player can never be framed (and if they are the scapegoat, the
     // conspirators literally cannot win).
     if (errors.length === 0 || (cols.length === pc && c.handSize >= 1 && c.stashSize >= 1)) {
@@ -239,9 +239,9 @@
         if (!st.feasible || st.minIncidence < pc - 1) {
           errors.push('The deck cannot give every player ' + (pc - 1) + ' evidence cards (needed to frame them). Increase hand size, lower the player count, or raise the deck colour cap.');
         } else {
-          if (st.maxIncidence >= pc + 2) warnings.push('Some colour appears on ' + st.maxIncidence + ' cards — framing that player may be too easy, leaving the scapegoat little chance.');
-          if (st.minIncidence === pc - 1) warnings.push('Every colour sits at the bare minimum (' + (pc - 1) + ' cards) — frames will be hard to assemble; expect long games.');
-          if ((c.deck && c.deck.greyFraction > 0) && st.greyCards === 0) warnings.push('No room for grey bystander cards at this count — the scapegoat loses an easy safe card to shed.');
+          if (st.maxIncidence >= pc + 2) warnings.push('Some colour appears on ' + st.maxIncidence + ' cards - framing that player may be too easy, leaving the scapegoat little chance.');
+          if (st.minIncidence === pc - 1) warnings.push('Every colour sits at the bare minimum (' + (pc - 1) + ' cards) - frames will be hard to assemble; expect long games.');
+          if ((c.deck && c.deck.greyFraction > 0) && st.greyCards === 0) warnings.push('No room for grey bystander cards at this count - the scapegoat loses an easy safe card to shed.');
         }
       } catch (e) {
         errors.push('Deck could not be generated for this configuration.');
@@ -249,14 +249,14 @@
     }
 
     if (c.enforceDumpOwnColor === false) warnings.push('House rule: not forcing players to shed their own colour makes the scapegoat far harder to catch.');
-    if (c.frameMode === 'auto_detect' && SGDeck.effectiveMaxColors(c, SGDeck.presetKnobs(c)) >= 3) warnings.push('Auto-detect framing with 3-colour cards can resolve in surprising ways — declared-target is clearer.');
+    if (c.frameMode === 'auto_detect' && SGDeck.effectiveMaxColors(c, SGDeck.presetKnobs(c)) >= 3) warnings.push('Auto-detect framing with 3-colour cards can resolve in surprising ways - declared-target is clearer.');
 
     if (c.scoring && c.scoring.enabled) {
       if (ROTATIONS.indexOf(c.scoring.rotateScapegoat) === -1) errors.push('Scapegoat rotation must be one of: random, clockwise, loser_first.');
       if (!(c.scoring.winTarget >= 1)) errors.push('The series win target must be at least 1 point.');
       else if (c.scoring.winTarget > 10) warnings.push('A win target above 10 makes for a very long series.');
       if (!(c.scoring.scoreEscape >= 0) || !(c.scoring.scoreFrameRight >= 0) || !(c.scoring.scoreFrameWrong >= 0)) errors.push('Point values cannot be negative.');
-      else if (c.scoring.scoreEscape === 0 && c.scoring.scoreFrameRight === 0 && c.scoring.scoreFrameWrong === 0) warnings.push('All point values are 0 — nobody can ever win the series.');
+      else if (c.scoring.scoreEscape === 0 && c.scoring.scoreFrameRight === 0 && c.scoring.scoreFrameWrong === 0) warnings.push('All point values are 0 - nobody can ever win the series.');
     }
 
     if (c.turnTimerSec > 0 && c.turnTimerSec < 15) warnings.push('A turn timer under 15 seconds may frustrate players.');
@@ -565,7 +565,7 @@
   }
 
   // ---------------------------------------------------------------------------
-  // Turn: 2. Action — Spy.
+  // Turn: 2. Action - Spy.
   // ---------------------------------------------------------------------------
   function spy(state, targetId) {
     if (state.phase !== 'action_spy') throw new Error('Not at the Spy location.');
@@ -585,7 +585,7 @@
   }
 
   // ---------------------------------------------------------------------------
-  // Turn: 2. Action — Trade (two private selections, then a simultaneous swap).
+  // Turn: 2. Action - Trade (two private selections, then a simultaneous swap).
   // ---------------------------------------------------------------------------
   function tradeBegin(state, partnerId) {
     if (state.phase !== 'action_trade') throw new Error('Not at the Trade location.');
@@ -626,7 +626,7 @@
   }
 
   // ---------------------------------------------------------------------------
-  // Turn: 2. Action — Stash (take one facedown, then return one).
+  // Turn: 2. Action - Stash (take one facedown, then return one).
   // ---------------------------------------------------------------------------
   function stashTake(state, index) {
     if (state.phase !== 'action_stash') throw new Error('Not at the Stash location.');
@@ -652,7 +652,7 @@
   }
 
   // ---------------------------------------------------------------------------
-  // Turn: 2. Action — Prepare (take a token; flip the board at the threshold).
+  // Turn: 2. Action - Prepare (take a token; flip the board at the threshold).
   // ---------------------------------------------------------------------------
   function prepare(state) {
     if (state.phase !== 'action_prepare') throw new Error('Not at the Prepare location (or it has already flipped).');
@@ -664,14 +664,14 @@
     pushLog(state, nameOf(state, cur.id) + ' took a preparation token.');
     if (!state.prepFlipped && taken >= state.config.flipThreshold) {
       state.prepFlipped = true;
-      pushLog(state, 'The board flips to FRAME / STEAL — the heist can now be pinned on someone.');
+      pushLog(state, 'The board flips to FRAME / STEAL - the heist can now be pinned on someone.');
     }
     enterEvidenceSwap(state);
     return state;
   }
 
   // ---------------------------------------------------------------------------
-  // Turn: 2. Action — Frame / Steal (only after the flip).
+  // Turn: 2. Action - Frame / Steal (only after the flip).
   // ---------------------------------------------------------------------------
   function frameInitiate(state, declaredColor) {
     if (state.phase !== 'action_framesteal') throw new Error('Frame/Steal is not available yet.');
@@ -748,7 +748,7 @@
     };
 
     if (!framedColor) {
-      pushLog(state, 'The frame attempt FAILED — no single colour was on everyone else’s card.');
+      pushLog(state, 'The frame attempt FAILED - no single colour was on everyone else’s card.');
       state.frame = null;
       state.phase = 'frame_resolve'; // a screen to show the failed reveal before continuing
       return state;
@@ -757,9 +757,9 @@
     var framedId = ownerOfColor(state, framedColor);
     state.framedId = framedId;
     if (framedId === state.scapegoatId) {
-      return concludeRound(state, 'framed_correct', 'The conspirators framed ' + nameOf(state, framedId) + ' — the real scapegoat!');
+      return concludeRound(state, 'framed_correct', 'The conspirators framed ' + nameOf(state, framedId) + ' - the real scapegoat!');
     }
-    return concludeRound(state, 'framed_wrong', nameOf(state, framedId) + ' was framed, but they were innocent — the real scapegoat walks free!');
+    return concludeRound(state, 'framed_wrong', nameOf(state, framedId) + ' was framed, but they were innocent - the real scapegoat walks free!');
   }
 
   function frameAcknowledge(state) {
@@ -782,7 +782,7 @@
   }
 
   // ---------------------------------------------------------------------------
-  // Turn: 2. Action — Go to the Cops (ends the game; the scapegoat wins).
+  // Turn: 2. Action - Go to the Cops (ends the game; the scapegoat wins).
   // ---------------------------------------------------------------------------
   function goToCops(state) {
     if (state.phase !== 'action_cops') throw new Error('You must move to the Cops location first.');
@@ -796,7 +796,7 @@
     state.copsCallerId = callerId;
     var outcome = (callerId === state.scapegoatId) ? 'scapegoat_escaped' : 'cops_called_wrong';
     return concludeRound(state, outcome, nameOf(state, callerId) + ' ran to the cops. ' +
-      (callerId === state.scapegoatId ? 'They were the scapegoat — they escape!' : 'They were NOT the scapegoat — but the scapegoat still walks free!'));
+      (callerId === state.scapegoatId ? 'They were the scapegoat - they escape!' : 'They were NOT the scapegoat - but the scapegoat still walks free!'));
   }
 
   // ---------------------------------------------------------------------------
@@ -860,7 +860,7 @@
       if (leaders.atTarget.length > 0) {
         state.matchWinnerIds = leaders.atTarget;
         state.phase = 'game_over';
-        pushLog(state, 'Series over — ' + leaders.atTarget.map(function (id) { return nameOf(state, id); }).join(', ') + ' reached ' + c.scoring.winTarget + ' points.');
+        pushLog(state, 'Series over - ' + leaders.atTarget.map(function (id) { return nameOf(state, id); }).join(', ') + ' reached ' + c.scoring.winTarget + ' points.');
       } else {
         state.phase = 'round_over';
       }

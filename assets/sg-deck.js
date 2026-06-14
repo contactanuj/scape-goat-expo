@@ -1,5 +1,5 @@
 /*
- * sg-deck.js — deterministic evidence-deck synthesis for Scape Goat.
+ * sg-deck.js - deterministic evidence-deck synthesis for Scape Goat.
  *
  * Scape Goat has a CLOSED card economy: every card is dealt at setup (no draw
  * pile), and every action is a 1-for-1 swap, so the total never changes:
@@ -9,7 +9,7 @@
  * Each EVIDENCE CARD shows zero or more player COLORS (portraits) and may show a
  * grey "innocent bystander" (no player's colour). To FRAME a target, every one of
  * the N-1 other players must simultaneously hold a card bearing the target's
- * colour — so the deck MUST contain at least N-1 cards of every colour, otherwise
+ * colour - so the deck MUST contain at least N-1 cards of every colour, otherwise
  * that player can never be framed (and if they are the scapegoat, the conspirators
  * literally cannot win). This module guarantees that floor BY CONSTRUCTION.
  *
@@ -142,7 +142,7 @@
     var i;
     for (i = 0; i < R; i++) colorCount.push(1);
     // Greedily fill each card up to its cap before moving on. Total incidence is unchanged
-    // (so the per-colour floor is preserved — colours are assigned by demand below), but
+    // (so the per-colour floor is preserved - colours are assigned by demand below), but
     // when 3-colour is allowed this actually yields 3-colour cards instead of only pairs.
     var idx = 0, guard = 0;
     while (extra > 0 && idx < R && guard++ < R * maxColors + 5) {

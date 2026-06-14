@@ -1,7 +1,7 @@
 # Contributing
 
 Thanks for your interest in improving Scape Goat (pass-and-play)! This is a small,
-non-commercial fan project — contributions of all sizes are welcome.
+non-commercial fan project - contributions of all sizes are welcome.
 
 Please read the [DISCLAIMER](DISCLAIMER.md) first: this is an unofficial adaptation, and
 contributions must keep it non-commercial and free of any original art or rulebook text
@@ -10,7 +10,7 @@ from the published game.
 ## Project layout
 
 ```
-App.js              Expo shell — loads assets/app.html into a WebView
+App.js              Expo shell - loads assets/app.html into a WebView
 build.js            inlines styles.css + sg-*.js + ui.js -> assets/app.html
 make-icon.js        renders assets/icon.png (zero-dependency PNG encoder)
 assets/
@@ -59,7 +59,7 @@ sync.
 
 ## Ground rules that keep the game from breaking
 
-When touching gameplay, preserve these invariants (they are enforced by tests — keep them
+When touching gameplay, preserve these invariants (they are enforced by tests - keep them
 green):
 
 1. **No hidden-info leaks.** The shared board renders only `SG.publicState()`. A player's

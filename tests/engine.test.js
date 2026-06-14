@@ -1,5 +1,5 @@
 /*
- * engine.test.js — exercises sg-deck.js + sg-engine.js with no dependencies.
+ * engine.test.js - exercises sg-deck.js + sg-engine.js with no dependencies.
  *
  * Run: node tests/engine.test.js   (or: npm test)
  *

@@ -1,5 +1,5 @@
 /*
- * ui.js — pass-and-play UI for Scape Goat. Browser-only (uses the DOM).
+ * ui.js - pass-and-play UI for Scape Goat. Browser-only (uses the DOM).
  * Depends on window.SG (engine) and window.SGDeck, inlined before this by build.js.
  *
  * HIDDEN-INFO DISCIPLINE (the wink-killer lesson):
@@ -95,7 +95,7 @@
     if (revealTimer && !showingSecret) stopCountdown();
 
     app.innerHTML = html;
-    // Only jump to the top on a real screen change — not on in-place updates (typing a
+    // Only jump to the top on a real screen change - not on in-place updates (typing a
     // name, tapping a stepper/toggle/select in Setup), which would otherwise yank the
     // page back to the top mid-edit.
     var key = screenKey();
@@ -107,7 +107,7 @@
     scheduleBots();
   }
 
-  // A stable id for "which screen am I on" — re-renders that keep this key keep the scroll.
+  // A stable id for "which screen am I on" - re-renders that keep this key keep the scroll.
   function screenKey() {
     if (view !== 'game' || !G) return view;
     return ['game', G.phase, G.currentPlayerId,
@@ -128,22 +128,22 @@
     return [
       '<div class="center" style="padding-top:26px">',
       '<h1>SCAPE GOAT</h1>',
-      '<p class="muted">Pass-and-play · one device · 3–8 players</p>',
+      '<p class="muted">Pass-and-play · one device · 3-8 players</p>',
       '</div>',
       '<div class="spacer"></div>',
       resume,
       '<button class="btn primary" data-action="newgame">New game</button>',
       '<button class="btn" data-action="rules">How to play</button>',
       '<div class="spacer"></div>',
-      '<p class="small muted center">You pulled off the heist of the century — but the cops are coming and someone has to take the fall. Frame the scapegoat… unless the scapegoat is <i>you</i>, in which case run to the cops!</p>',
-      '<p class="small muted center">This app privately deals everyone their evidence and their belief about who the scapegoat is, runs the board, and resolves frames — you bring the table talk, bluffs and winks.</p>'
+      '<p class="small muted center">You pulled off the heist of the century - but the cops are coming and someone has to take the fall. Frame the scapegoat… unless the scapegoat is <i>you</i>, in which case run to the cops!</p>',
+      '<p class="small muted center">This app privately deals everyone their evidence and their belief about who the scapegoat is, runs the board, and resolves frames - you bring the table talk, bluffs and winks.</p>'
     ].join('');
   }
 
   // ===========================================================================
   // SETUP + CONFIG (live validation)
   // ===========================================================================
-  // Seed `pc` flavourful, distinct names — keeping any already entered, padding the rest
+  // Seed `pc` flavourful, distinct names - keeping any already entered, padding the rest
   // from a shuffled "Gruff Gang" pool (falls back to "Player N" if the pool runs out).
   function themedNames(pc, existing) {
     existing = (existing || []).slice(0, pc);
@@ -170,7 +170,7 @@
     if (!d.playerKinds) d.playerKinds = SG.defaultKinds(d.playerCount);
     while (d.playerKinds.length < d.playerCount) d.playerKinds.push('human');
     d.playerKinds.length = d.playerCount;
-    // The out-of-turn cops interrupt is a 6-player-only rule — never leave it set otherwise.
+    // The out-of-turn cops interrupt is a 6-player-only rule - never leave it set otherwise.
     if (d.cops && d.playerCount !== 6) d.cops.sixPlayerInterrupt = false;
   }
 
@@ -198,7 +198,7 @@
 
       '<div class="panel">',
       '<div class="collapse-h" data-action="toggleAdvanced"><h3 style="margin:0">Advanced configuration</h3><span class="iconbtn">' + (adv ? 'Hide ▲' : 'Show ▼') + '</span></div>',
-      adv ? renderAdvanced(draft) : '<p class="small muted" style="margin-top:8px">Defaults match the official game for ' + draft.playerCount + ' players. Tap to tune the deck, frame style, scoring and house rules — invalid combos are blocked, off-spec ones are warned.</p>',
+      adv ? renderAdvanced(draft) : '<p class="small muted" style="margin-top:8px">Defaults match the official game for ' + draft.playerCount + ' players. Tap to tune the deck, frame style, scoring and house rules - invalid combos are blocked, off-spec ones are warned.</p>',
       '</div>',
 
       renderValidation(v),
@@ -209,7 +209,7 @@
   }
 
   // Smallest hand size that still lets the synthesized deck make every player frameable
-  // for the CURRENT player count / stash / deck — so the stepper can't create a broken game.
+  // for the CURRENT player count / stash / deck - so the stepper can't create a broken game.
   function feasibleMinHand(d) {
     for (var h = 1; h <= 5; h++) {
       var t = JSON.parse(JSON.stringify(d)); t.handSize = h;
@@ -228,10 +228,10 @@
       '<div class="spacer"></div>',
       '<h3>Deck</h3>',
       selectRow('deck.preset', 'Deck balance', d.deck.preset, [
-        ['scarce', 'Scarce — frames hard to assemble'],
+        ['scarce', 'Scarce - frames hard to assemble'],
         ['balanced', 'Balanced (recommended)'],
-        ['rich', 'Rich — frames easier'],
-        ['chaos', 'Chaos — allows 3-suspect cards']
+        ['rich', 'Rich - frames easier'],
+        ['chaos', 'Chaos - allows 3-suspect cards']
       ]),
       stepperRow('Cards per hand', 'handSize', d.handSize, minHand, 5),
       minHand > 1 ? '<p class="tiny muted" style="margin-top:-2px">Minimum ' + minHand + ' for ' + d.playerCount + ' players (so every player can be framed).</p>' : '',
@@ -240,8 +240,8 @@
       '<div class="spacer"></div>',
       '<h3>Framing</h3>',
       selectRow('frameMode', 'How a frame resolves', d.frameMode, [
-        ['declared_target', 'Declared target — the framer names who (clean)'],
-        ['auto_detect', 'Auto-detect — read it from the revealed cards']
+        ['declared_target', 'Declared target - the framer names who (clean)'],
+        ['auto_detect', 'Auto-detect - read it from the revealed cards']
       ]),
       checkboxRow('Must shed your own colour on a swap', 'enforceDumpOwnColor', d.enforceDumpOwnColor),
       checkboxRow('Must move to a new location each turn', 'mustMoveEachTurn', d.mustMoveEachTurn),
@@ -251,15 +251,15 @@
       '<div class="spacer"></div>',
       '<h3>Scapegoat</h3>',
       selectRow('scapegoat.beginnerAssist', 'Beginner help', d.scapegoat.beginnerAssist, [
-        ['off', 'Off — pure deduction (recommended)'],
-        ['hints', 'Hints — show how much of your colour you can see']
+        ['off', 'Off - pure deduction (recommended)'],
+        ['hints', 'Hints - show how much of your colour you can see']
       ]),
       selectRow('scapegoat.decoyMode', 'Decoy the scapegoat is told', d.scapegoat.decoyMode, [
         ['random_other', 'Random other player (recommended)'],
         ['adjacent', 'The player to their left']
       ]),
       stepperRow('Auto-hide the secret after (seconds)', 'autoHideSeconds', d.autoHideSeconds, 3, 30),
-      // The out-of-turn "run to the cops" rule is a 6-player-only rule — only offered at 6.
+      // The out-of-turn "run to the cops" rule is a 6-player-only rule - only offered at 6.
       d.playerCount === 6 ? checkboxRow('Out-of-turn “run to the cops” rule (6-player)', 'cops.sixPlayerInterrupt', d.cops.sixPlayerInterrupt) : '',
 
       '<div class="spacer"></div>',
@@ -416,7 +416,7 @@
       return [
         topbar('Secret intel', ''),
         '<div class="panel center"><h2>Pass the device around</h2>',
-        '<p class="muted">Each player privately sees their starting evidence and learns who <b>they</b> think the scapegoat is. Most of you are right — but the real scapegoat has been told the wrong name. Don\'t let anyone else see your screen.</p>',
+        '<p class="muted">Each player privately sees their starting evidence and learns who <b>they</b> think the scapegoat is. Most of you are right - but the real scapegoat has been told the wrong name. Don\'t let anyone else see your screen.</p>',
         G.config.scapegoat.beginnerAssist === 'hints' ? '<div class="note small">Beginner help is ON: you\'ll see how many cards showing your own colour you can currently spot.</div>' : '',
         '</div>',
         '<button class="btn primary" data-action="revealStart">Begin</button>'
@@ -431,7 +431,7 @@
     }
     var p = G.players[ui.revealIdx];
     if (!ui.revealShown) {
-      return passScreen(p.name, 'Make sure only ' + esc(p.name) + ' can see the screen.', 'I am ' + esc(p.name) + ' — show my intel', 'revealShow');
+      return passScreen(p.name, 'Make sure only ' + esc(p.name) + ' can see the screen.', 'I am ' + esc(p.name) + ' - show my intel', 'revealShow');
     }
     return [
       topbar('Secret intel', ''),
@@ -441,7 +441,7 @@
     ].join('');
   }
 
-  // The intel screen — IDENTICAL shape for the scapegoat and conspirators. When the
+  // The intel screen - IDENTICAL shape for the scapegoat and conspirators. When the
   // auto-hide timer has elapsed, the secret is replaced by a neutral privacy cover (the
   // cover is also identical for everyone, so nothing leaks while it's hidden).
   function renderIntelCard(playerId) {
@@ -455,7 +455,7 @@
     }
     var info = SG.revealInfo(G, playerId);
     var assist = (G.config.scapegoat.beginnerAssist === 'hints')
-      ? '<p class="small muted">You can currently see <b>' + info.visibleOwnColor + '</b> card(s) showing your own colour (' + swatch(info.you.color) + '). If the whole table seems to be hoarding your colour, you may be the patsy — consider the cops.</p>'
+      ? '<p class="small muted">You can currently see <b>' + info.visibleOwnColor + '</b> card(s) showing your own colour (' + swatch(info.you.color) + '). If the whole table seems to be hoarding your colour, you may be the patsy - consider the cops.</p>'
       : '';
     return [
       '<div class="intelcard">',
@@ -465,7 +465,7 @@
       '</div>',
       '<p class="tiny muted center">Auto-hides in ' + (ui.countdown != null ? ui.countdown : autoHideSecs()) + 's</p>',
       '<div class="panel"><h3>Your evidence</h3>' + renderHandCards(playerId) + '</div>',
-      '<p class="small muted">Collect cards showing the scapegoat\'s colour and frame them — but if the table turns on <i>your</i> colour instead, run to the cops!</p>',
+      '<p class="small muted">Collect cards showing the scapegoat\'s colour and frame them - but if the table turns on <i>your</i> colour instead, run to the cops!</p>',
       assist
     ].join('');
   }
@@ -511,11 +511,11 @@
   function renderSpyView() {
     var t = G.spy.targetId;
     if (!ui.spyShown) {
-      return passScreen(nameOf(G.spy.viewerId), 'Spying on ' + esc(nameOf(t)) + '\'s hand — others look away.', 'Show me their hand', 'spyShow');
+      return passScreen(nameOf(G.spy.viewerId), 'Spying on ' + esc(nameOf(t)) + '\'s hand - others look away.', 'Show me their hand', 'spyShow');
     }
     return ['<div class="panel"><h2>' + esc(nameOf(t)) + '\'s hand</h2>' + renderHandCards(t) +
       '<p class="small muted">Remember it. You can lie about what you saw.</p>' +
-      '<button class="btn primary" data-action="spyDone">Done — hide</button></div>'].join('');
+      '<button class="btn primary" data-action="spyDone">Done - hide</button></div>'].join('');
   }
 
   // ---- Trade -------------------------------------------------------------
@@ -575,11 +575,11 @@
           return '<button class="btn" data-action="pickFrameTarget" data-arg="' + p.color + '">Frame ' + swatch(p.color) + ' ' + esc(p.name) + '</button>';
         }).join('');
         return ['<div class="panel"><h2>Frame Attempt ' + swatch(cur.color) + '</h2>',
-          '<p class="muted">You have a preparation token — declare who the gang is pinning it on. Then everyone reveals a card; the frame sticks only if every other player is holding that colour.</p>', btns, '</div>'].join('');
+          '<p class="muted">You have a preparation token - declare who the gang is pinning it on. Then everyone reveals a card; the frame sticks only if every other player is holding that colour.</p>', btns, '</div>'].join('');
       }
       return ['<div class="panel center"><h2>Frame Attempt ' + swatch(cur.color) + '</h2>',
         '<p class="muted">Everyone will reveal a card at once. The frame lands on whichever single colour every other player is holding.</p>',
-        '<button class="btn danger" data-action="frameInitiateAuto">Call the frame — everyone reveal</button></div>'].join('');
+        '<button class="btn danger" data-action="frameInitiateAuto">Call the frame - everyone reveal</button></div>'].join('');
     }
     var victims = SG.eligibleStealTargets(G).map(function (pid) {
       return '<button class="btn" data-action="doSteal" data-arg="' + pid + '">' + swatch(colorOf(pid)) + ' ' + esc(nameOf(pid)) + '</button>';
@@ -592,9 +592,9 @@
   function renderCops() {
     var cur = SG.currentPlayer(G);
     return ['<div class="panel center"><h2>Go to the Cops?</h2>',
-      '<p class="muted">This ends the game immediately and the <b>scapegoat wins</b> — whoever turned themselves in. Only do this if you\'re sure the gang is framing <i>you</i>.</p>',
+      '<p class="muted">This ends the game immediately and the <b>scapegoat wins</b> - whoever turned themselves in. Only do this if you\'re sure the gang is framing <i>you</i>.</p>',
       '<button class="btn danger" data-action="confirmCops">' + esc(cur.name) + ' runs to the cops</button>',
-      '<button class="btn ghost" data-action="cancelCops">Wait — go back</button></div>'].join('');
+      '<button class="btn ghost" data-action="cancelCops">Wait - go back</button></div>'].join('');
   }
 
   // ---- Frame select (each player privately picks a card) ----------------
@@ -609,13 +609,13 @@
       return passScreen(nameOf(pid), 'Secretly choose the card you\'ll reveal in the frame. ' + (ui.frameIdx + 1) + ' of ' + ids.length + '.', 'I am ' + esc(nameOf(pid)), 'frameGateOpen');
     }
     var declared = G.frame.declaredColor;
-    var hint = declared ? 'The gang is framing ' + swatch(declared) + ' ' + esc(nameForColor(declared)) + '. Show that colour to help — or show something else to betray the plan.' : 'Pick the card you want to reveal.';
+    var hint = declared ? 'The gang is framing ' + swatch(declared) + ' ' + esc(nameForColor(declared)) + '. Show that colour to help - or show something else to betray the plan.' : 'Pick the card you want to reveal.';
     return ['<div class="panel"><h2>' + esc(nameOf(pid)) + ', pick your card</h2><p class="muted">' + hint + '</p>',
       renderHandCards(pid, 'framePick') + '</div>'].join('');
   }
   function renderFrameResolve() {
     return [renderFrameRevealCards(),
-      '<div class="panel center"><h2>Frame failed</h2><p class="muted">No single colour was on everyone else\'s card. The heist goes on — and everyone just learned a little more.</p>',
+      '<div class="panel center"><h2>Frame failed</h2><p class="muted">No single colour was on everyone else\'s card. The heist goes on - and everyone just learned a little more.</p>',
       '<button class="btn primary" data-action="frameContinue">Continue</button></div>'].join('');
   }
   function renderFrameRevealCards() {
@@ -630,7 +630,7 @@
   function renderEvidenceSwap() {
     var cur = SG.currentPlayer(G);
     if (!ui.swapShown) {
-      return passScreen(cur.name, 'Evidence swap — others look away.', 'Show my hand', 'swapShow');
+      return passScreen(cur.name, 'Evidence swap - others look away.', 'Show my hand', 'swapShow');
     }
     var loc = G.movedTo;
     var faceCard = G.cards[G.faceup[loc]];
@@ -643,7 +643,7 @@
     return ['<div class="panel"><h2>Evidence swap at ' + esc(locLabel(loc)) + '</h2>',
       '<p class="muted">You\'ll take this face-up card:</p>',
       '<div class="cards-row">' + renderCard(faceCard, {}) + '</div>',
-      mustShed ? '<div class="warn small">You\'re holding your own colour (' + swatch(cur.color) + ') — you must swap one of those out.</div>' : '',
+      mustShed ? '<div class="warn small">You\'re holding your own colour (' + swatch(cur.color) + ') - you must swap one of those out.</div>' : '',
       '<p class="muted">Tap one of your cards to put face-up here:</p>',
       '<div class="cards-row">' + hand + '</div></div>'].join('');
   }
@@ -809,7 +809,7 @@
 
   // Perform exactly ONE automatic step (a bot's action, or an auto-skip/auto-begin in an
   // all-bot game). Returns true if it acted; false when a HUMAN must act now. Bots never
-  // expose their hand/intel — only public engine actions run.
+  // expose their hand/intel - only public engine actions run.
   function botActOnce() {
     if (!G || view !== 'game') return false;
     var ph = G.phase;
@@ -870,14 +870,14 @@
   // ===========================================================================
   function renderRules() {
     return [topbar('How to play', '<button class="iconbtn" data-action="backFromRules">Back</button>'),
-      '<div class="panel"><h2>The setup</h2><p class="small">One of you is secretly the <b>scapegoat</b>. The app privately tells everyone who they <i>think</i> the scapegoat is — and quietly lies to the scapegoat, naming someone else. So the scapegoat is the one player whose belief is wrong, and they have to figure that out.</p></div>',
-      '<div class="panel"><h2>Who wins</h2><p class="small">The <b>gang</b> (everyone but the scapegoat) wins by <b>framing the real scapegoat</b>. The <b>scapegoat</b> wins by <b>running to the cops</b> before that happens — or if the gang frames the wrong person.</p></div>',
+      '<div class="panel"><h2>The setup</h2><p class="small">One of you is secretly the <b>scapegoat</b>. The app privately tells everyone who they <i>think</i> the scapegoat is - and quietly lies to the scapegoat, naming someone else. So the scapegoat is the one player whose belief is wrong, and they have to figure that out.</p></div>',
+      '<div class="panel"><h2>Who wins</h2><p class="small">The <b>gang</b> (everyone but the scapegoat) wins by <b>framing the real scapegoat</b>. The <b>scapegoat</b> wins by <b>running to the cops</b> before that happens - or if the gang frames the wrong person.</p></div>',
       '<div class="panel"><h2>Your turn</h2><div class="steps">' +
         '<div class="step">Move your token to a new location.</div>' +
         '<div class="step">Do that location\'s action: <b>Spy</b> a hand, <b>Trade</b> a card, draw from the <b>Stash</b>, <b>Prepare</b> a token, or (once the board flips) <b>Frame/Steal</b>. Or go to the <b>Cops</b>.</div>' +
-        '<div class="step">Swap one card with the face-up card there — if you hold your own colour, you must give one of those up.</div></div></div>',
+        '<div class="step">Swap one card with the face-up card there - if you hold your own colour, you must give one of those up.</div></div></div>',
       '<div class="panel"><h2>Framing</h2><p class="small">After two preparation tokens are taken the board flips. A token-holder can call a <b>Frame Attempt</b>: everyone reveals a card at once, and the frame sticks on a colour only if every other player revealed that colour. Frame the scapegoat → the gang wins. Frame anyone else → the scapegoat wins.</p></div>',
-      '<div class="panel"><h2>Lying is the game</h2><p class="small">Talk, bluff, point fingers, wink. You may say anything about your cards or what you spied — true or false. Just don\'t tip off the scapegoat that the table is collecting <i>their</i> colour.</p></div>',
+      '<div class="panel"><h2>Lying is the game</h2><p class="small">Talk, bluff, point fingers, wink. You may say anything about your cards or what you spied - true or false. Just don\'t tip off the scapegoat that the table is collecting <i>their</i> colour.</p></div>',
       '<button class="btn primary" data-action="backFromRules">Got it</button>'].join('');
   }
 

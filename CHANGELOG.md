@@ -6,7 +6,7 @@ All notable changes to this project are documented here. The format is based on
 
 ## [1.0.0] - 2026-06-14
 
-Initial release — a complete, configurable, pass-and-play adaptation.
+Initial release - a complete, configurable, pass-and-play adaptation.
 
 ### Added
 - Pure, deterministic rules engine (`sg-engine.js`): movement → action → evidence-swap
@@ -20,7 +20,7 @@ Initial release — a complete, configurable, pass-and-play adaptation.
   a How-to-play / first-game guide.
 - **Bots** (`sg-bot.js`): per-seat Human/Bot toggle and honest, non-cheating computer
   players that auto-play with their secrets hidden.
-- Configuration with live validation: player count 3–8 (4–6 official), deck presets
+- Configuration with live validation: player count 3-8 (4-6 official), deck presets
   (scarce/balanced/rich/chaos), declared-target vs auto-detect framing, must-move,
   must-shed-own-colour, prep-token count + flip threshold, the 6-player cops interrupt,
   decoy mode, beginner hints, and optional first-to-N series scoring.

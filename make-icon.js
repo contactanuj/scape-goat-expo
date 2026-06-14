@@ -1,5 +1,5 @@
 /*
- * make-icon.js — renders assets/icon.png (1024x1024) with zero dependencies.
+ * make-icon.js - renders assets/icon.png (1024x1024) with zero dependencies.
  *
  * A clean gold billy-goat head emblem inside a thin gold ring, on the app's deep
  * slate brand background. Drawn with signed-distance shapes for crisp antialiasing,

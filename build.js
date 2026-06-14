@@ -1,5 +1,5 @@
 /*
- * build.js — composes assets/app.html from the source modules.
+ * build.js - composes assets/app.html from the source modules.
  *
  *   assets/styles.css   -> inlined <style>
  *   assets/sg-deck.js   -> inlined <script> (deterministic evidence-deck synthesis)

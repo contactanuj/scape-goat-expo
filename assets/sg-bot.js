@@ -1,9 +1,9 @@
 /*
- * sg-bot.js — honest computer players for Scape Goat.
+ * sg-bot.js - honest computer players for Scape Goat.
  *
  * ANTI-CHEAT CONTRACT (do not break): a bot may read ONLY information a human in its
  * seat would have:
- *   - its own hand (player.hand) and the card definitions (state.cards — public shape),
+ *   - its own hand (player.hand) and the card definitions (state.cards - public shape),
  *   - its own intel / suspect (state.intel[botId]),
  *   - the public board (face-up cards, token positions, hand COUNTS, prep tokens),
  *   - its own accumulated observations (state.botMemory[botId]), filled only from
@@ -12,10 +12,10 @@
  * intel. (A test greps this file for `scapegoatId` and asserts it never appears, and
  * asserts decisions are invariant when the real scapegoat is swapped.)
  *
- * How a bot "realises" it is the scapegoat — exactly like a human: it watches its OWN
+ * How a bot "realises" it is the scapegoat - exactly like a human: it watches its OWN
  * colour pile up in other hands / face-up (via Spying and the public board). Conspirators
  * collect the real scapegoat's colour, so only the real scapegoat sees its own colour
- * hoarded — and when the count crosses a threshold, the bot runs to the cops.
+ * hoarded - and when the count crosses a threshold, the bot runs to the cops.
  */
 (function (root, factory) {
   var SG = (typeof module !== 'undefined' && module.exports) ? require('./sg-engine.js') : (root && root.SG);
@@ -67,7 +67,7 @@
   function afterSpy(state, viewerId) { // call right after SG.spy: only the spying bot learns
     if (state.spy && state.spy.viewerId === viewerId) bump(state, viewerId, me(state, state.spy.targetId).hand);
   }
-  function afterFrameReveal(state) { // a Frame reveal is public — every bot learns from it
+  function afterFrameReveal(state) { // a Frame reveal is public - every bot learns from it
     if (!state.lastFrame) return;
     var picks = state.lastFrame.picks, ids = [];
     for (var p in picks) if (picks.hasOwnProperty(p)) ids.push(picks[p]);
@@ -86,7 +86,7 @@
   }
 
   // ---- core judgement: am I the patsy? -----------------------------------
-  // Reads ONLY memory + own colour/suspect — NOT state.scapegoatId.
+  // Reads ONLY memory + own colour/suspect - NOT state.scapegoatId.
   function dangerLevel(state, id) { var t = topColor(state, id); return t.color === ownColor(state, id) ? t.count : 0; }
   function wantsCops(state, id) {
     var t = topColor(state, id);
@@ -109,7 +109,7 @@
   // ---- card-preference tiers (lower = more willing to give away) ---------
   function tierGive(state, id, cid) { // trade / face-up swap: shed grey first, keep suspect colour
     var own = ownColor(state, id), sus = suspectColor(state, id), d = def(state, cid);
-    if (d.colors.indexOf(sus) !== -1) return 4;            // keep — needed to frame
+    if (d.colors.indexOf(sus) !== -1) return 4;            // keep - needed to frame
     if (d.colors.length === 0) return 0;                   // grey-only: safest to give
     if (d.colors.indexOf(own) !== -1) return 3;            // own colour: avoid arming others
     return 1;                                              // neutral coloured

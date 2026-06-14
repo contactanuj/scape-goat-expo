@@ -1,7 +1,7 @@
 # Security Policy
 
 This is a small, offline, single-device pass-and-play app with no network, accounts, or
-servers — its attack surface is minimal. Still, we take reports seriously.
+servers - its attack surface is minimal. Still, we take reports seriously.
 
 ## Reporting a vulnerability
 
@@ -16,11 +16,11 @@ within a few days.
 ## In scope
 
 - Anything that could leak hidden game information on a shared screen (the core
-  correctness/fairness property of the game — see CONTRIBUTING.md).
+  correctness/fairness property of the game - see CONTRIBUTING.md).
 - Issues in the build/release pipeline (e.g. accidental secret exposure).
 
 ## Handling secrets
 
 Never commit secrets. The Expo access token used for EAS builds must be provided via the
-`EXPO_TOKEN` environment variable / repository secret — see `.env.example`. The `.gitignore`
+`EXPO_TOKEN` environment variable / repository secret - see `.env.example`. The `.gitignore`
 excludes `.env*`, keystores, and provisioning profiles.

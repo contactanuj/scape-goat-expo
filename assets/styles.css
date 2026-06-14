@@ -1,4 +1,4 @@
-/* styles.css — Scape Goat pass-and-play. Heist / barnyard-noir: deep slate + gold. */
+/* styles.css - Scape Goat pass-and-play. Heist / barnyard-noir: deep slate + gold. */
 :root {
   --bg: #0c0f14;
   --panel: #151a22;
@@ -11,7 +11,7 @@
   --ok: #4a9d6a;
   --danger: #d05a48;
   --accent: #4a8fd0;
-  /* player colour swatches (public identities — NOT secret roles) */
+  /* player colour swatches (public identities - NOT secret roles) */
   --c-red: #e0584b;
   --c-blue: #4a8fd0;
   --c-green: #57b069;
@@ -117,7 +117,7 @@ select {
 .sw-pink { background: var(--c-pink); } .sw-teal { background: var(--c-teal); }
 .sw-grey { background: var(--c-grey); }
 
-/* board strip — the line of locations with tokens (public) */
+/* board strip - the line of locations with tokens (public) */
 .board { display: flex; gap: 6px; overflow-x: auto; padding: 4px 0 8px; }
 .loc {
   flex: 1 0 86px; min-width: 86px; border: 1px solid var(--line); border-radius: 10px;
@@ -131,7 +131,7 @@ select {
 .loc .toks { display: flex; flex-wrap: wrap; gap: 3px; justify-content: center; margin-top: 6px; min-height: 16px; }
 .loc .faceup-mini { margin-top: 6px; }
 
-/* roster — players with public colour, location, hand count, tokens */
+/* roster - players with public colour, location, hand count, tokens */
 .roster { display: flex; flex-direction: column; gap: 6px; }
 .prow { display: flex; align-items: center; gap: 9px; padding: 8px 10px; border-radius: 10px; background: var(--panel2); border: 1px solid var(--line); }
 .prow.turn { border-color: var(--gold); }
@@ -158,7 +158,7 @@ select {
 .ecard.mini { width: 60px; padding: 6px 4px; }
 .ecard.mini .pdot { width: 14px; height: 14px; }
 
-/* intel / role card (private; identical look for everyone — no role tell) */
+/* intel / role card (private; identical look for everyone - no role tell) */
 .intelcard { border-radius: 16px; padding: 22px 18px; text-align: center; margin: 10px 0; border: 2px solid var(--gold-dim); background: #1a1810; }
 .intelcard .big { font-size: 26px; font-weight: 800; margin: 6px 0; color: var(--gold); }
 
