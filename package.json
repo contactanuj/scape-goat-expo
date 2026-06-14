@@ -25,6 +25,7 @@
     "build:android": "npm run build:html && npx eas-cli build -p android --profile preview"
   },
   "dependencies": {
+    "babel-preset-expo": "~56.0.0",
     "expo": "^56.0.11",
     "expo-asset": "~56.0.17",
     "expo-file-system": "~56.0.8",
