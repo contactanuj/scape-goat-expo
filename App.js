@@ -2,7 +2,8 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { Asset } from 'expo-asset';
-import * as FileSystem from 'expo-file-system';
+// SDK 54+ moved the classic file API (readAsStringAsync) to the /legacy subpath.
+import * as FileSystem from 'expo-file-system/legacy';
 import { useEffect, useState } from 'react';
 
 export default function App() {
